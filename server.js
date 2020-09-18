@@ -1,24 +1,18 @@
 const express = require('express');
 const mysql = require('mysql');
 
-const app = express(express.json());
-//app.use(express.json());
+const bodyParser = require('body-parser')
+
+const app = express();
+app.use(express.json());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "*")
+    res.header("Access-Control-Allow-Headers", "*"); //"Origin, X-Requested-With, Content-Type, Accept, application/json");
     next();
 });
 
-/*
-//database connection
-db = mysql.createConnection({
-    host    : '192.168.1.180',
-    user    : 'commander',
-    password: 'abc123',
-    database: 'pi4web'
-});
-*/
 db = mysql.createPool({
     host    : '192.168.1.180',
     user    : 'commander',
@@ -92,25 +86,23 @@ app.delete('/deletepost/:id', (req, res) => {
 })
 
 //insert data
-app.get('/addpost', (req, res) => {
-    let post = {name: 'ls', howTo: 'ls', options: '-a, -d', platform: 'linux', description: 'list files and directorys'};
+app.post('/addpost', (req, res) => {
+    //let post = {name: 'ls', howTo: 'ls', options: '-a, -d', platform: 'linux', description: 'list files and directorys'};
+    console.log(req.body)
+    const newCommand = {
+        name: req.body.name,
+        platform: req.body.platform,
+        options: req.body.options,
+        description: req.body.description,
+        howTo: req.body.howTo
+    };
     let sql = 'INSERT INTO commands SET ?';
-    let query = db.query(sql, post, (err, result) => {
+    let query = db.query(sql, newCommand, (err, result) => {
         if(err) throw err;
         console.log(result);
-        res.send('Post added to table')
+        res.send(JSON.stringify({'post': 'Post added to table'}))
     })
 })
-
-/*
-//connect
-db.connect((err) => {
-    if(err){
-        console.log(err)
-    }else{
-        console.log("Connected to db")
-    }
-})*/
 
 app.listen('5555', () => {
     console.log("Server is up on port 5555")
