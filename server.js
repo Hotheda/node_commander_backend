@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
+const config = require('./config.js')
 
 const bodyParser = require('body-parser')
 
@@ -13,12 +14,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-db = mysql.createPool({
-    host    : '192.168.1.180',
-    user    : 'commander',
-    password: 'abc123',
-    database: 'pi4web'
-});
+db = mysql.createPool(config);
 
 db.on('error', function(err) {
     console.log(err.code); // 'ER_BAD_DB_ERROR'
@@ -105,4 +101,5 @@ app.post('/addpost', (req, res) => {
 
 app.listen('5555', () => {
     console.log("Server is up on port 5555")
+    console.log(config)
 });
