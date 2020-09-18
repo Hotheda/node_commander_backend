@@ -81,14 +81,12 @@ app.delete('/deletepost/:id', (req, res) => {
     let query = db.query(sql, (err, results) => {
         if(err) throw err;
         console.log(results)
-        res.send('Post deleted');
+        res.send(results);
     })
 })
 
 //insert data
 app.post('/addpost', (req, res) => {
-    //let post = {name: 'ls', howTo: 'ls', options: '-a, -d', platform: 'linux', description: 'list files and directorys'};
-    console.log(req.body)
     const newCommand = {
         name: req.body.name,
         platform: req.body.platform,
@@ -100,7 +98,8 @@ app.post('/addpost', (req, res) => {
     let query = db.query(sql, newCommand, (err, result) => {
         if(err) throw err;
         console.log(result);
-        res.send(JSON.stringify({'post': 'Post added to table'}))
+        res.send(result)
+        //res.send(JSON.stringify({'post': 'Post added to table'}))
     })
 })
 
