@@ -101,5 +101,4 @@ app.post('/addpost', (req, res) => {
 
 app.listen('5555', () => {
     console.log("Server is up on port 5555")
-    console.log(config)
 });
