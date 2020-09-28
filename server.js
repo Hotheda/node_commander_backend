@@ -62,9 +62,16 @@ app.get('/getpost/:id', (req, res) => {
 
 //update post
 app.post('/updatepost/:id', (req, res) => {
-    let newname = 'cd'
-    let sql = `UPDATE commands SET name = '${newname}' WHERE id = ${req.params.id}`;
-    let query = db.query(sql, (err, result) => {
+    //let newname = 'cd'
+    const newCommand = {
+        name: req.body.name,
+        platform: req.body.platform,
+        options: req.body.options,
+        description: req.body.description,
+        howTo: req.body.howTo
+    };
+    let sql = `UPDATE commands SET ? WHERE id = ${req.params.id}`;
+    let query = db.query(sql,newCommand, (err, result) => {
         if(err) throw err;
         console.log(result)
         res.send(result);
@@ -81,7 +88,7 @@ app.delete('/deletepost/:id', (req, res) => {
     })
 })
 
-//insert data
+//Create post
 app.post('/addpost', (req, res) => {
     const newCommand = {
         name: req.body.name,
