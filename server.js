@@ -60,7 +60,6 @@ app.get('/getpost/:id', (req, res) => {
 
 //update post
 app.post('/updatepost/:id', (req, res) => {
-    //let newname = 'cd'
     const newCommand = {
         name: req.body.name,
         platform: req.body.platform,
@@ -100,7 +99,6 @@ app.post('/addpost', (req, res) => {
         if(err) throw err;
         console.log(result);
         res.send(result)
-        //res.send(JSON.stringify({'post': 'Post added to table'}))
     })
 })
 
