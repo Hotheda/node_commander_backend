@@ -9,7 +9,8 @@ const options = {
     cert: fs.readFileSync('cert.pem')
 }
 
-const app = express(options);
+const app = express();
+
 app.use(express.json());
 
 app.use(function (req, res, next) {
@@ -18,6 +19,8 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "*"); //"Origin, X-Requested-With, Content-Type, Accept, application/json");
     next();
 });
+
+var httpsServer = https.createServer(options, app)
 
 db = mysql.createPool(config);
 
@@ -109,6 +112,10 @@ app.post('/addpost', (req, res) => {
     })
 })
 
-app.listen('5555', () => {
+httpsServer.listen('5555', () => {
     console.log("Server is up on port 5555")
 });
+/*
+app.listen('5555', () => {
+    console.log("Server is up on port 5555")
+});*/
