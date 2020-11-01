@@ -1,13 +1,15 @@
 const express = require('express');
 const mysql = require('mysql');
 const config = require('./config.js')
+
+/*
 const https = require('https')
 const fs = require('fs')
 
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
-}
+}*/
 
 const app = express();
 
@@ -20,7 +22,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-var httpsServer = https.createServer(options, app)
+//var httpsServer = https.createServer(options, app)
 
 db = mysql.createPool(config);
 
@@ -111,11 +113,11 @@ app.post('/addpost', (req, res) => {
         res.send(result)
     })
 })
-
+/*
 httpsServer.listen('5555', () => {
     console.log("Server is up on port 5555")
-});
-/*
+});*/
+
 app.listen('5555', () => {
     console.log("Server is up on port 5555")
-});*/
+});
