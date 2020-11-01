@@ -1,8 +1,15 @@
 const express = require('express');
 const mysql = require('mysql');
 const config = require('./config.js')
+const https = require('https')
+const fs = require('fs')
 
-const app = express();
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+}
+
+const app = express(options);
 app.use(express.json());
 
 app.use(function (req, res, next) {
